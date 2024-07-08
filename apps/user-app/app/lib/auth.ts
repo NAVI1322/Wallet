@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 export const authOptions = {
     providers: [
       CredentialsProvider({
-          name: 'Credentials',
+          name: 'number',
           credentials: {
             phone: { label: "Phone number", type: "text", placeholder: "1231231231", required: true },
             password: { label: "Password", type: "password", required: true }
@@ -13,7 +13,7 @@ export const authOptions = {
           // TODO: User credentials type from next-aut
           async authorize(credentials: any) {
             // Do zod validation, OTP validation here
-            const hashedPassword = await bcrypt.hash(credentials.password, 10);
+            const hashedPassword = await bcrypt.hash(credentials.password, 10); // hashing Password 
             const existingUser = await db.user.findFirst({
                 where: {
                     number: credentials.phone
@@ -28,7 +28,7 @@ export const authOptions = {
                         name: existingUser.name,
                         email: existingUser.number
                     }
-                }
+                }   
                 return null;
             }
 
@@ -56,7 +56,7 @@ export const authOptions = {
     secret: process.env.JWT_SECRET || "secret",
     callbacks: {
         // TODO: can u fix the type here? Using any is bad
-        async session({ token, session }: any) {
+        async session({ token, session }:any) {
             session.user.id = token.sub
 
             return session
