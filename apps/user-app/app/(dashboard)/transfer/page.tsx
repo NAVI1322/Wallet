@@ -8,13 +8,10 @@ import { authOptions } from "../../lib/auth";
 async function getBalance() {
     const session = await getServerSession(authOptions);
     console.log('Session:', session.user.id);
-
+    
     if (!session?.user?.id) {
         throw new Error('User not authenticated');
     }
-
-
-
     const balance = await prisma.balance.findFirst({
         where: {
             userId: Number(session.user.id)
