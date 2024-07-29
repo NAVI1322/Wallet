@@ -15,6 +15,7 @@ async function getBalance() {
     const balance = await prisma.balance.findFirst({
         where: {
             userId: Number(session.user.id)
+            
         }
     });
     console.log('Balance:', balance);
